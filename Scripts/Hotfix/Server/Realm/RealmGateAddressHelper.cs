@@ -9,7 +9,7 @@ namespace ET.Server
 		{
 			ulong hash = (ulong)account.GetLongHashCode();
 			
-			List<StartSceneConfig> zoneGates = StartSceneConfigCategory.Instance.Gates[zone];
+			List<StartSceneConfig> zoneGates = StartSceneConfigCategory.Instance.GetBySceneType(zone, SceneType.Gate);
 			
 			return zoneGates[(int)(hash % (ulong)zoneGates.Count)];
 		}

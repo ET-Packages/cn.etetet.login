@@ -2,6 +2,6 @@
 {
     public static partial class MailBoxType
     {
-        public const int GateSession = PackageType.StateSync * 1000 + 1;
+        public const int GateSession = PackageType.Login * 1000 + 1;
     }
 }

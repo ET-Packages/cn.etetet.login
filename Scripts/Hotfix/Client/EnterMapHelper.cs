@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 
 namespace ET.Client
@@ -15,6 +15,18 @@ namespace ET.Client
                 await root.GetComponent<ObjectWait>().Wait<Wait_SceneChangeFinish>();
                 
                 EventSystem.Instance.Publish(root, new EnterMapFinish());
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+            }	
+        }
+        
+        public static async ETTask Match(Fiber fiber)
+        {
+            try
+            {
+                G2C_Match g2CEnterMap = await fiber.Root.GetComponent<ClientSenderComponent>().Call(C2G_Match.Create()) as G2C_Match;
             }
             catch (Exception e)
             {

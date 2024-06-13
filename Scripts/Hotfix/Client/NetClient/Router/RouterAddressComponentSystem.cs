@@ -9,21 +9,19 @@ namespace ET.Client
     public static partial class RouterAddressComponentSystem
     {
         [EntitySystem]
-        private static void Awake(this RouterAddressComponent self, string address, int port)
+        private static void Awake(this RouterAddressComponent self, string address)
         {
-            self.RouterManagerHost = address;
-            self.RouterManagerPort = port;
+            self.Address = address;
         }
         
         public static async ETTask Init(this RouterAddressComponent self)
         {
-            self.RouterManagerIPAddress = NetworkHelper.GetHostAddress(self.RouterManagerHost);
             await self.GetAllRouter();
         }
 
         private static async ETTask GetAllRouter(this RouterAddressComponent self)
         {
-            string url = $"http://{self.RouterManagerHost}:{self.RouterManagerPort}/get_router?v={RandomGenerator.RandUInt32()}";
+            string url = $"http://{self.Address}/get_router?v={RandomGenerator.RandUInt32()}";
             Log.Debug($"start get router info: {url}");
             string routerInfo = await HttpClientHelper.Get(url);
             Log.Debug($"recv router info: {routerInfo}");
@@ -59,7 +57,7 @@ namespace ET.Client
             Log.Info($"get router address: {self.RouterIndex - 1} {address}");
             string[] ss = address.Split(':');
             IPAddress ipAddress = IPAddress.Parse(ss[0]);
-            if (self.RouterManagerIPAddress.AddressFamily == AddressFamily.InterNetworkV6)
+            if (IPAddress.Parse(self.Address).AddressFamily == AddressFamily.InterNetworkV6)
             { 
                 ipAddress = ipAddress.MapToIPv6();
             }

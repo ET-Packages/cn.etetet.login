@@ -15,7 +15,7 @@ namespace ET.Client
             root.RemoveComponent<RouterAddressComponent>();
             // 获取路由跟realmDispatcher地址
             RouterAddressComponent routerAddressComponent =
-                    root.AddComponent<RouterAddressComponent, string, int>(ConstValue.RouterHttpHost, ConstValue.RouterHttpPort);
+                    root.AddComponent<RouterAddressComponent, string>(request.Address);
             await routerAddressComponent.Init();
             root.AddComponent<NetComponent, AddressFamily, NetworkProtocol>(routerAddressComponent.RouterManagerIPAddress.AddressFamily, NetworkProtocol.UDP);
             root.GetComponent<FiberParentComponent>().ParentFiberId = request.OwnerFiberId;
