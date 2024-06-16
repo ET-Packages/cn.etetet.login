@@ -12,6 +12,8 @@ namespace ET.Client
         private static void Awake(this RouterAddressComponent self, string address)
         {
             self.Address = address;
+            string ip = self.Address.Substring(0, self.Address.LastIndexOf(":"));
+            self.AddressFamily = IPAddress.Parse(ip).AddressFamily;
         }
         
         public static async ETTask Init(this RouterAddressComponent self)
@@ -57,7 +59,7 @@ namespace ET.Client
             Log.Info($"get router address: {self.RouterIndex - 1} {address}");
             string[] ss = address.Split(':');
             IPAddress ipAddress = IPAddress.Parse(ss[0]);
-            if (IPAddress.Parse(self.Address).AddressFamily == AddressFamily.InterNetworkV6)
+            if (self.AddressFamily == AddressFamily.InterNetworkV6)
             { 
                 ipAddress = ipAddress.MapToIPv6();
             }
@@ -68,13 +70,14 @@ namespace ET.Client
         {
             int v = account.Mode(self.Info.Realms.Count);
             string address = self.Info.Realms[v];
-            string[] ss = address.Split(':');
-            IPAddress ipAddress = IPAddress.Parse(ss[0]);
+            
+            IPAddress ipAddress = IPAddress.Parse(address.Substring(0, address.LastIndexOf(":")));
+            int port = int.Parse(address.Substring(address.LastIndexOf(":") + 1));
             //if (self.IPAddress.AddressFamily == AddressFamily.InterNetworkV6)
             //{ 
             //    ipAddress = ipAddress.MapToIPv6();
             //}
-            return new IPEndPoint(ipAddress, int.Parse(ss[1]));
+            return new IPEndPoint(ipAddress, port);
         }
     }
 }

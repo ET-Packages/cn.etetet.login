@@ -17,7 +17,7 @@ namespace ET.Client
             RouterAddressComponent routerAddressComponent =
                     root.AddComponent<RouterAddressComponent, string>(request.Address);
             await routerAddressComponent.Init();
-            root.AddComponent<NetComponent, AddressFamily, NetworkProtocol>(routerAddressComponent.RouterManagerIPAddress.AddressFamily, NetworkProtocol.UDP);
+            root.AddComponent<NetComponent, AddressFamily, NetworkProtocol>(routerAddressComponent.AddressFamily, NetworkProtocol.UDP);
             root.GetComponent<FiberParentComponent>().ParentFiberId = request.OwnerFiberId;
 
             NetComponent netComponent = root.GetComponent<NetComponent>();
