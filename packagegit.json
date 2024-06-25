@@ -1,0 +1,7 @@
+{
+"Id": 9,
+"Name": "Login",
+"GitDependencies": {
+  "cn.etetet.router": "https://github.com/ET-Packages/cn.etetet.router.git#0.0.1"
+}
+}
