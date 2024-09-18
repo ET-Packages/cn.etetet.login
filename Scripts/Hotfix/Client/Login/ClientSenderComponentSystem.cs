@@ -64,12 +64,12 @@ namespace ET.Client
             using A2NetClient_Response a2NetClientResponse = await self.Root().GetComponent<ProcessInnerSender>().Call(self.netClientActorId, a2NetClientRequest) as A2NetClient_Response;
             IResponse response = a2NetClientResponse.MessageObject;
                         
-            if (response.Error == ErrorCore.ERR_MessageTimeout)
+            if (response.Error == ErrorCode.ERR_MessageTimeout)
             {
                 throw new RpcException(response.Error, $"Rpc error: request, 注意Actor消息超时，请注意查看是否死锁或者没有reply: {request}, response: {response}");
             }
 
-            if (needException && ErrorCore.IsRpcNeedThrowException(response.Error))
+            if (needException && ErrorCode.IsRpcNeedThrowException(response.Error))
             {
                 throw new RpcException(response.Error, $"Rpc error: {request}, response: {response}");
             }
